@@ -23,11 +23,11 @@ fd-build:
 fd-test:
   stage: test
   script:
-    - echo no tests: mvn $MAVEN_CLI_OPTS verify
+    - echo "no tests: mvn $MAVEN_CLI_OPTS verify"
 
 fd-deploy:
   stage: deploy
   script:
-    - echo no deploy: mvn $MAVEN_CLI_OPTS $MAVEN_DEPLOY_OPTS clean package org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy
+    - echo "no deploy: mvn $MAVEN_CLI_OPTS $MAVEN_DEPLOY_OPTS clean package org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy"
 
 #end
