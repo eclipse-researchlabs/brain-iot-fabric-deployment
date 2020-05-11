@@ -3,9 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.paremus.brain.iot.pkgexample</groupId>
-        <artifactId>packager-example</artifactId>
+        <groupId>com.paremus.brain.iot</groupId>
+        <artifactId>behaviour-marketplace</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath />
     </parent>
 
     <groupId>com.paremus.brain.iot.marketplace</groupId>

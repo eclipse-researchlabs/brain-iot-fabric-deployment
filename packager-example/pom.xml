@@ -6,6 +6,7 @@
         <groupId>com.paremus.brain.iot</groupId>
         <artifactId>eventing-substrate</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath />
     </parent>
 
     <groupId>com.paremus.brain.iot.pkgexample</groupId>
