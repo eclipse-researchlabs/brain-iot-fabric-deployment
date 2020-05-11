@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.paremus.brain.iot</groupId>
-    <artifactId>fabric-deploy-reactor</artifactId>
+    <artifactId>fabric-deployment-reactor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

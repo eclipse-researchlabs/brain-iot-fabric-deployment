@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
- 
+
     <parent>
         <groupId>com.paremus.brain.iot</groupId>
         <artifactId>eventing-substrate</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>com.paremus.brain.iot.pkgexample</groupId>
     <artifactId>packager-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+
     <description>A Paremus Packager example - built using OSGi enRoute R7</description>
 
     <repositories>
+
+        <repository>
+            <id>brain-iot-releases</id>
+            <name>BRAIN-IoT Releases</name>
+            <url>https://nexus.repository-pert.ismb.it/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>brain-iot-snapshots</id>
+            <name>BRAIN-IoT Snapshots</name>
+            <url>https://nexus.repository-pert.ismb.it/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
         <repository>
             <id>paremus-public-releases</id>
             <url>https://nexus2.paremus.com/content/repositories/releases</url>
@@ -27,6 +53,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
         <repository>
             <id>paremus-public-snapshots</id>
             <url>https://nexus2.paremus.com/content/repositories/snapshots</url>
@@ -68,12 +95,12 @@
     </dependencyManagement>
 
 
-  <modules>
-    <module>sensor.api</module>
-    <module>behaviour.api</module>
-    <module>behaviour.impl</module>
-    <module>sensor.impl</module>
-    <module>single-framework-example</module>
-    <module>packager-example-marketplace</module>
-  </modules>
+    <modules>
+        <module>sensor.api</module>
+        <module>behaviour.api</module>
+        <module>behaviour.impl</module>
+        <module>sensor.impl</module>
+        <module>single-framework-example</module>
+        <module>packager-example-marketplace</module>
+    </modules>
 </project>
