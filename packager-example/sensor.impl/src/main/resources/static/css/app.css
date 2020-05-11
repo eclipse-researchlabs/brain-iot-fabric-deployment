@@ -1,0 +1,17 @@
+/* app css stylesheet */
+
+body {
+  padding-top: 20px;
+}
+
+.logo {
+  padding-bottom: 20px;
+}
+
+.bottom-padding {
+  margin-bottom: 1em;
+}
+
+.message-list {
+  padding-top: 20px;
+}

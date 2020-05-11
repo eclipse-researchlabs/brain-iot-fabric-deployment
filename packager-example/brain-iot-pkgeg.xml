@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  == start dev http server to serve brain-iot-pkgeg.xml and referenced resources
+  == unzip $BRAIN_IOT_REPOS/target/brain-iot-repos-0.0.1-SNAPSHOT.zip
+  == python3 -m http.server
+  ==
+  == now import http://localhost:8000/brain-iot-pkgeg.xml into fabric
+  -->
+<system xmlns="http://schema.paremus.com/sf/1.2"
+        name="Brain-IoT-Runtime"
+        version="1.0.0"
+        repopath="brain-iot-repos/core/index.xml,brain-iot-repos/ui/index.xml,https://nexus2.paremus.com/content/repositories/releases/com/paremus/packager/_index/3.2.16/_index-3.2.16.xml"
+        boundary="fabric">
+
+  <system.part name="Core">
+    <config pid="org.osgi.service.log.admin">
+      <property name="ROOT" value="INFO" />
+    </config>
+
+    <config pid="eu.brain.iot.BehaviourManagementService">
+      <!-- indexes must be accessible to all fabric nodes -->
+      <property name="indexes"
+                value="http://localhost:8000/packager-example-marketplace/target/marketplace/index.xml" />
+    </config>
+
+    <replication.handler name="scale"
+                         type="scalable">
+      <property name="scaleFactor"
+                value="1.0"
+                type="float" />
+      <property name="minimum"
+                value="1"
+                type="integer" />
+    </replication.handler>
+
+    <system.part.element name="com.paremus.brain.iot.eventing.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.management.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.installer.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.message.integrity.insecure.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.resolver.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.metaconfig"
+                         category="osgi.bundle" />
+  </system.part>
+
+  <system.part name="UI">
+    <launch.properties>
+      <!-- prevent Jetty from binding a port until its config is loaded -->
+      <property name="org.osgi.service.http.port"
+                value="-1" />
+    </launch.properties>
+
+    <config pid="org.osgi.service.log.admin">
+      <property name="ROOT" value="INFO" />
+    </config>
+
+    <config pid="org.apache.felix.http" factory="true">
+      <property name="org.eclipse.jetty.servlet.SessionCookie"
+                value="Paremus-SessionId" />
+      <property name="org.osgi.service.http.port"
+                value="8888" />
+    </config>
+
+    <!-- force deployment to labelled UI node -->
+    <contract features="(UI=*)" cancelationCost="-1"/>
+
+    <system.part.element name="com.paremus.brain.iot.ui.rest.app"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.rest.config"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.client"
+                         category="osgi.bundle" />
+    <!-- fails to resolve without this -->
+    <system.part.element name="org.apache.aries.jax.rs.shiro.authz"
+                         category="osgi.bundle" />
+    <!-- rest broken without these  -->
+    <system.part.element name="org.apache.aries.jax.rs.jackson"
+                         category="osgi.bundle" />
+    <system.part.element name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider"
+                         category="osgi.bundle" />
+  </system.part>
+
+    <system.part name="MongoDb">
+        <launch.properties>
+            <property name="org.osgi.framework.system.packages.extra" value="sun.misc"/>
+            <!-- prevent Jetty from binding to same port as others in chain -->
+            <property name="org.osgi.service.http.port" value="-1"/>
+        </launch.properties>
+
+        <system.part.element name="com.paremus.packager.pkg.generic" category="osgi.bundle"/>
+        <config factory="true" pid="com.paremus.packager.pkg.generic">
+            <property name="imageRef" value="mongo:3.6.4"/>
+            <property name="packageType" value="mongo-for-pyrest"/>
+            <property name="port" value="${port#any}"/>
+            <property name="containerPort" value="27017"/>
+            <property name="advertiseScheme" value="mongodb"/>
+        </config>
+    </system.part>
+
+    <system.part name="PyRest">
+        <launch.properties>
+            <property name="org.osgi.framework.system.packages.extra" value="sun.misc"/>
+            <!-- prevent Jetty from binding to same port as others in chain -->
+            <property name="org.osgi.service.http.port" value="-1"/>
+        </launch.properties>
+
+        <system.part.element name="com.paremus.packager.pkg.generic" category="osgi.bundle"/>
+        <config factory="true" pid="com.paremus.packager.pkg.generic">
+            <property name="imageRef" value="db82407/pkgtest:1.0"/>
+            <property name="packageType" value="python-rest"/>
+            <property name="port" value="${port#any}"/>
+            <property name="containerPort" value="5000"/>
+            <property name="environment" value="MONGO_URL; endpoint:='(&amp;(uri=mongodb://*)(name=mongo-for-pyrest))' "/>
+        </config>
+    </system.part>
+
+</system>
