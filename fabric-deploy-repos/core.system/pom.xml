@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>com.paremus.brain.iot</groupId>
+      <artifactId>fabric-deploy</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>core-system</artifactId>
+    <packaging>pom</packaging>
+
+    <dependencies>
+
+      <dependency>
+          <groupId>com.paremus.brain.iot</groupId>
+          <artifactId>eventing.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.paremus.brain.iot</groupId>
+          <artifactId>message.integrity.insecure.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+          <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>com.paremus.brain.iot</groupId>
+          <artifactId>management.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.paremus.brain.iot</groupId>
+          <artifactId>installer.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.paremus.brain.iot</groupId>
+          <artifactId>resolver.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.paremus.ui</groupId>
+          <artifactId>_index</artifactId>
+          <version>1.0.0</version>
+          <type>pom</type>
+      </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+          <plugin>
+            <groupId>biz.aQute.bnd</groupId>
+            <artifactId>bnd-indexer-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>biz.aQute.bnd</groupId>
+            <artifactId>bnd-export-maven-plugin</artifactId>
+            <configuration>
+              <exporter>bnd.runbundles</exporter>
+              <bndruns>
+                <bndrun>system.bndrun</bndrun>
+              </bndruns>
+            </configuration>
+          </plugin>
+        </plugins>
+    </build>
+
+</project>

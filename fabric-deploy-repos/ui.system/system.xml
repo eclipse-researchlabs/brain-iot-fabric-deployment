@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<system xmlns="http://schema.paremus.com/sf/1.2"
+        name="Brain-IoT-UI"
+        version="1.0.0"
+        repopath="target/export/index.xml"
+        boundary="fabric">
+
+  <system.part name="UI">
+    <launch.properties>
+      <!-- prevent Jetty from binding a port until its config is loaded -->
+      <property name="org.osgi.service.http.port"
+                value="-1" />
+    </launch.properties>
+
+    <config pid="org.apache.felix.http">
+      <property name="org.apache.felix.http.host"
+                value="${clusterAddress#}" />
+      <property name="org.osgi.service.http.port"
+                value="8888" />
+    </config>
+
+    <system.part.element name="com.paremus.brain.iot.ui.rest.app"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.rest.config"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.client"
+                         category="osgi.bundle" />
+    <!-- nimble missed shiro.authz -->
+    <system.part.element name="org.apache.aries.jax.rs.shiro.authz"
+                         category="osgi.bundle" />
+  </system.part>
+
+</system>

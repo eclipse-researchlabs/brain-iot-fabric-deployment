@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>com.paremus.brain.iot</groupId>
+      <artifactId>fabric-deploy</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>brain-iot-repos</artifactId>
+
+    <properties>
+        <assembly.dir>${project.build.directory}/assembly</assembly.dir>
+    </properties>
+
+    <dependencies>
+
+      <dependency>
+            <groupId>com.paremus.brain.iot</groupId>
+            <artifactId>core-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>pom</type>
+      </dependency>
+
+      <dependency>
+            <groupId>com.paremus.brain.iot</groupId>
+            <artifactId>ui-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>pom</type>
+      </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-core</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <resources>
+                            <resource>
+                                <directory>../core.system/target/export/system</directory>
+                            </resource>
+                        </resources>
+                        <outputDirectory>${assembly.dir}/core</outputDirectory>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>copy-ui</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <resources>
+                            <resource>
+                                <directory>../ui.system/target/export/system</directory>
+                            </resource>
+                        </resources>
+                        <outputDirectory>${assembly.dir}/ui</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>biz.aQute.bnd</groupId>
+            <artifactId>bnd-indexer-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>index</id>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>core-index</id>
+                    <goals>
+                        <goal>local-index</goal>
+                    </goals>
+                    <configuration>
+                        <inputDir>${assembly.dir}/core</inputDir>
+                        <outputFile>${assembly.dir}/core/index.xml</outputFile>
+                        <includeGzip>false</includeGzip>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>ui-index</id>
+                    <goals>
+                        <goal>local-index</goal>
+                    </goals>
+                    <configuration>
+                        <inputDir>${assembly.dir}/ui</inputDir>
+                        <outputFile>${assembly.dir}/ui/index.xml</outputFile>
+                        <includeGzip>false</includeGzip>
+                    </configuration>
+                </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <skipIfEmpty>true</skipIfEmpty>
+                </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <descriptor>src/assembly/assembly.xml</descriptor>
+                <classifier>brain-iot-repos</classifier>
+                <attach>true</attach>
+            </configuration>
+          </plugin>
+        </plugins>
+    </build>
+
+</project>

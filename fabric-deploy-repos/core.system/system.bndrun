@@ -1,0 +1,46 @@
+# core-system/system.bndrun
+
+-resolve.effective: active
+
+-runfw: org.apache.felix.framework
+-runee: JavaSE-11
+
+#-runtrace: true
+
+# Bnd doesn't know Resolver is provided by framework
+-runsystemcapabilities: \
+    osgi.service;objectClass=org.osgi.service.resolver.Resolver
+
+-runprovidedcapabilities: ${native_capability}
+
+-runrequires: \
+        bnd.identity;id='com.paremus.brain.iot.eventing.impl',\
+        bnd.identity;id='com.paremus.brain.iot.management.impl',\
+        bnd.identity;id='com.paremus.brain.iot.installer.impl',\
+        bnd.identity;id='com.paremus.brain.iot.resolver.impl',\
+        bnd.identity;id='com.paremus.ui.metaconfig'
+
+-runbundles: \
+	biz.aQute.bndlib;version='[4.3.0,4.3.1)',\
+	biz.aQute.repository;version='[4.3.0,4.3.1)',\
+	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
+	ch.qos.logback.core;version='[1.2.3,1.2.4)',\
+	com.github.oshi.oshi-core;version='[4.2.1,4.2.2)',\
+	com.paremus.brain.iot.eventing.api;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.eventing.impl;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.installer.api;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.installer.impl;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.management.api;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.management.impl;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.message.integrity.api;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.message.integrity.insecure.impl;version='[0.0.1,0.0.2)',\
+	com.paremus.brain.iot.resolver.impl;version='[0.0.1,0.0.2)',\
+	com.paremus.ui.metaconfig;version='[1.0.0,1.0.1)',\
+	com.sun.jna;version='[5.5.0,5.5.1)',\
+	com.sun.jna.platform;version='[5.5.0,5.5.1)',\
+	org.apache.felix.configadmin;version='[1.9.16,1.9.17)',\
+	org.apache.felix.metatype;version='[1.2.2,1.2.3)',\
+	org.apache.felix.scr;version='[2.1.16,2.1.17)',\
+	org.osgi.service.log;version='[1.4.0,1.4.1)',\
+	org.osgi.util.pushstream;version='[1.0.0,1.0.1)',\
+	slf4j.api;version='[1.7.25,1.7.26)'

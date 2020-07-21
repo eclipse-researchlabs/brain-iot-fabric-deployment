@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<system xmlns="http://schema.paremus.com/sf/1.2"
+        name="Brain-IoT-Core"
+        version="1.0.0"
+        repopath="target/export/index.xml"
+        boundary="fabric">
+
+  <system.part name="Core">
+    <config pid="eu.brain.iot.BehaviourManagementService">
+      <!-- indexes must be accessible to all fabric nodes -->
+      <property name="indexes"
+                type="string[]"
+                value="http://localhost:8000/index2.xml" />
+    </config>
+
+    <replication.handler name="scale"
+                         type="scalable">
+      <property name="scaleFactor"
+                value="1.0"
+                type="float" />
+      <property name="minimum"
+                value="1"
+                type="integer" />
+    </replication.handler>
+
+    <system.part.element name="com.paremus.brain.iot.eventing.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.management.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.installer.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.brain.iot.resolver.impl"
+                         category="osgi.bundle" />
+    <system.part.element name="com.paremus.ui.metaconfig"
+                         category="osgi.bundle" />
+  </system.part>
+
+</system>
