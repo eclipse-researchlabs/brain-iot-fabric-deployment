@@ -1,0 +1,11 @@
+# hosts-int using internal addresses
+[infra]
+192.168.2.130 ansible_user=fabric-n9
+
+[simple]
+192.168.2.101 ansible_user=fabric-n1
+192.168.2.120 ansible_user=fabric-n4
+192.168.2.118 ansible_user=fabric-n5
+192.168.2.125 ansible_user=fabric-n6
+192.168.2.109 ansible_user=fabric-n7
+192.168.2.202 ansible_user=brainiot-ros

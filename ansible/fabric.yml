@@ -1,0 +1,66 @@
+---
+- name: configure fibre
+  hosts: all
+  become: True
+  gather_facts: True
+
+  vars:
+    fabric: brain-iot
+    jdk_arm32: ./jdk-8u231-linux-arm32-vfp-hflt.tar.gz
+    jdk_x86_64: ./jdk-8u231-linux-x64.tar.gz
+    fabric_zip: ./fabric-eval.zip
+    update_fabric: false
+
+  tasks:
+    - name: Install ARM JDK
+      unarchive: src={{ jdk_arm32 }} dest=/opt creates=/opt/jdk1.8.0_231
+      when: ansible_facts['architecture'] == 'armv7l'
+
+    - name: Install x86 JDK
+      unarchive: src={{ jdk_x86_64 }} dest=/opt creates=/opt/jdk1.8.0_231
+      when: ansible_facts['architecture'] == 'x86_64'
+
+    - name: Install fibre.service
+      copy: src=fibre.service dest=/etc/systemd/system owner=root group=root
+
+    - name: Stop fibre.service
+      service: name=fibre enabled=yes state=stopped
+
+    - name: Remove fabric
+      file:
+        path: /opt/fabric
+        state: absent
+      when: update_fabric == 'true'
+
+    - name: Install fabric
+      unarchive:
+        src: "{{ fabric_zip }}"
+        dest: /opt
+        creates: /opt/fabric
+
+    - name: create var directory
+      file: path=/opt/fabric/var state=directory
+
+    - name: copy license file
+      copy: src=./license.ini dest=/opt/fabric/etc
+
+    - name: copy static fibre.conf
+      template: src=fibre.conf dest=/opt/fabric/etc/fibre.conf
+
+    - name: copy dynamic fibre.conf
+      template: src=fibre.conf.j2 dest=/opt/fabric/var/fibre.conf
+
+    - name: add group "fabric"
+      group: name=fabric
+
+    - name: add user "fabric"
+      user: name=fabric group=fabric home=/opt/fabric
+
+    - name: change ownership of fabric 
+      file: path=/opt/fabric owner=fabric group=fabric state=directory recurse=yes
+
+    - name: restart service
+      service: name=fibre enabled=yes state=restarted
+
+    - debug:
+        msg: "Entire URL https://{{ groups['infra'][0] }}:9106"

@@ -1,0 +1,10 @@
+# hosts-vpn using external VPN addresses
+[infra]
+10.8.0.94 ansible_user=fabric-n9
+
+[simple]
+10.8.0.22 ansible_user=fabric-n1
+10.8.0.66 ansible_user=fabric-n4
+10.8.0.70 ansible_user=fabric-n5
+10.8.0.74 ansible_user=fabric-n6
+10.8.0.106 ansible_user=brainiot-ros

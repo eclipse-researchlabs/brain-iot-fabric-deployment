@@ -1,0 +1,18 @@
+[Unit]
+Description=Paremus Service Fabric
+After=network.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+KillMode=process
+#RemainAfterExit=yes
+SuccessExitStatus=143
+User=fabric
+ExecStart=/opt/fabric/bin/fibre-ctl start
+ExecStop=/opt/fabric/bin/fibre-ctl stop
+PIDFile=/opt/fabric/var/fibre.pid
+
+[Install]
+WantedBy=multi-user.target
