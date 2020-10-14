@@ -16,8 +16,7 @@
         bnd.identity;id='com.paremus.ui.rest.config',\
         bnd.identity;id='com.paremus.ui.client',\
         bnd.identity;id='org.osgi.util.function',\
-        bnd.identity;id='org.osgi.service.log',\
-        bnd.identity;id='org.apache.geronimo.specs.geronimo-activation_1.1_spec'
+        bnd.identity;id='org.osgi.service.log'
 
 -runbundles: \
     biz.aQute.bndlib;version='[4.3.0,4.3.1)',\
