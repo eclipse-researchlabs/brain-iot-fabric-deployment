@@ -1,7 +1,11 @@
 # $name - dynamically generated config
 NAME="{{ fabric }}"
 PEERS="{{ groups['infra'] | join(',') }}"
+
+{% if ansible_facts['tun0'] is defined %}
 NETMAP="{{ ansible_facts['default_ipv4']['address'] }}=={{ ansible_facts['tun0']['ipv4']['address'] }}"
+{% endif %}
+
 {% if inventory_hostname in groups['infra'] %}
 INFRA="true"
 LABEL_fibreType="infra-node"
@@ -9,4 +13,5 @@ LABEL_fibreType="infra-node"
 INFRA="false"
 LABEL_fibreType="simple-node"
 {% endif %}
+
 LABEL_KEYS="fibreType"
